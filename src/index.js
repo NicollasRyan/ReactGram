@@ -14,17 +14,22 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Auth/Login";
 import { Register } from "./pages/Auth/Register";
 
+import { Provider } from "react-redux";
+import { store } from "./store";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route element={<App />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Route>
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Routes>
+          <Route element={<App />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
+        </Routes>
+      </Router>
+    </Provider>
   </React.StrictMode>
 );
