@@ -1,6 +1,6 @@
 import "./style.css";
 
-export function Message({ msg, type }) {
+export default function Message({ msg, type }) {
   return (
     <div className={`message ${type}`}>
       <p>{msg}</p>

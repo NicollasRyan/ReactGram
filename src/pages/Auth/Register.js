@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import Message from "../../components/Message";
+
 import { register, reset } from "../../slices/authSlices";
 
 export function Register() {
@@ -64,7 +66,13 @@ export function Register() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           value={confirmPassword || ""}
         />
-        <input type="submit" placeholder="Cadastrar" />
+        {!loading && <button type="submit">Cadastrar</button>}
+        {loading && (
+          <button type="submit" disabled>
+            Aguarde...
+          </button>
+        )}
+        {error && <Message msg={error} type="error" />}
       </form>
       <p>
         Você já tem uma conta? <Link>Clique aqui.</Link>
