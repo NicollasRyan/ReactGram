@@ -13,9 +13,22 @@ import { useAuth } from "../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { lougot, reset } from "../../slices/authSlices";
+
 export function Navbar() {
   const { auth } = useAuth();
   const { user } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(lougot());
+    dispatch(reset());
+
+    navigate("/login");
+  };
 
   return (
     <nav id="nav">
@@ -44,7 +57,7 @@ export function Navbar() {
                 <BsFillPersonFill />
               </NavLink>
             </li>
-            <li>
+            <li onClick={handleLogout}>
               <span>Sair</span>
             </li>
           </>
