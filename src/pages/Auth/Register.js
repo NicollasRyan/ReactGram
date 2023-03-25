@@ -75,7 +75,7 @@ export function Register() {
         {error && <Message msg={error} type="error" />}
       </form>
       <p>
-        Você já tem uma conta? <Link>Clique aqui.</Link>
+        Você já tem uma conta? <Link to="/login">Clique aqui.</Link>
       </p>
     </div>
   );
