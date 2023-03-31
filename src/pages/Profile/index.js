@@ -23,6 +23,13 @@ export function Profile() {
   const { user, loading } = useSelector((state) => state.user);
   const { user: useAuth } = useSelector((state) => state.auth);
 
+  const newPhotoForm = useRef();
+  const editPhotoForm = useRef();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -38,6 +45,22 @@ export function Profile() {
           <p>{user.bio}</p>
         </div>
       </div>
+      {id === useAuth._id && (
+        <div className="new-photo" ref={newPhotoForm}>
+          <h3>Compratilhe algum momento seu:</h3>
+          <form onSubmit={handleSubmit}>
+            <label type="text">
+              <span>Titulo para foto:</span>
+              <input type="text" placeholder="Insira um Titulo" />
+            </label>
+            <label type="file">
+              <span>Image:</span>
+              <input type="text" />
+            </label>
+            <button type="submit">Postar</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
