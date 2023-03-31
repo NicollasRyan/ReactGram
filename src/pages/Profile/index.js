@@ -55,7 +55,7 @@ export function Profile() {
             </label>
             <label type="file">
               <span>Image:</span>
-              <input type="text" />
+              <input type="file" />
             </label>
             <button type="submit">Postar</button>
           </form>
