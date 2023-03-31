@@ -19,3 +19,6 @@ export const photoSlice = createSlice({
     },
   },
 });
+
+export const { restMessage } = photoSlice.actions;
+export default photoSlice.reducer;
