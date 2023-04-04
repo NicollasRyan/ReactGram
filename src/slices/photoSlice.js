@@ -66,13 +66,13 @@ export const photoSlice = createSlice({
       })
       .addCase(getUserPhotos.pending, (state) => {
         state.loading = true;
-        state.error = false;
+        state.error = null;
       })
       .addCase(getUserPhotos.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
         state.error = null;
-        state.photo = action.payload;
+        state.photos = action.payload;
       });
   },
 });
