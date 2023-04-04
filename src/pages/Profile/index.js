@@ -10,7 +10,11 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { getUserDetails } from "../../slices/userSlice";
-import { publishPhoto, restMessage } from "../../slices/photoSlice";
+import {
+  publishPhoto,
+  restMessage,
+  getUserPhotos,
+} from "../../slices/photoSlice";
 
 export function Profile() {
   const { id } = useParams();
@@ -18,7 +22,7 @@ export function Profile() {
   const dispatch = useDispatch();
 
   const { user, loading } = useSelector((state) => state.user);
-  const { user: useAuth } = useSelector((state) => state.auth);
+  const { user: userAuth } = useSelector((state) => state.auth);
   const {
     photos,
     loading: loadingPhoto,
@@ -34,6 +38,7 @@ export function Profile() {
 
   useEffect(() => {
     dispatch(getUserDetails(id));
+    dispatch(getUserPhotos(id));
   }, [dispatch, id]);
 
   const handleFile = (e) => {
@@ -82,7 +87,7 @@ export function Profile() {
           <p>{user.bio}</p>
         </div>
       </div>
-      {id === useAuth._id && (
+      {id === userAuth._id && (
         <>
           <div className="new-photo" ref={newPhotoForm}>
             <h3>Compratilhe algum momento seu:</h3>
@@ -112,6 +117,30 @@ export function Profile() {
           {messagePhoto && <Message msg={messagePhoto} type="success" />}
         </>
       )}
+      <div className="user-photos">
+        <h2>Fotos publicadas:</h2>
+        <div className="photos-container">
+          {photos &&
+            photos.map((photo) => (
+              <div className="photo" key={photo._id}>
+                {photo.image && (
+                  <img
+                    src={`${uploads}/photos/${photo.image}`}
+                    alt={photo.title}
+                  />
+                )}
+                {id === userAuth._id ? (
+                  <p>Actions</p>
+                ) : (
+                  <Link className="btn" to={`/photos/${photo._id}`}>
+                    Ver
+                  </Link>
+                )}
+                {photos.length === 0 && <p>Você não há fotos publicadas</p>}
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 }
