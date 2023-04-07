@@ -14,6 +14,7 @@ import {
   publishPhoto,
   restMessage,
   getUserPhotos,
+  deletePhoto,
 } from "../../slices/photoSlice";
 
 export function Profile() {
@@ -47,6 +48,12 @@ export function Profile() {
     setImage(image);
   };
 
+  const resetComponentMessage = () => {
+    setTimeout(() => {
+      dispatch(restMessage());
+    }, 2000);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -67,9 +74,13 @@ export function Profile() {
 
     setTitle("");
 
-    setTimeout(() => {
-      dispatch(restMessage());
-    }, 2000);
+    resetComponentMessage();
+  };
+
+  const handleDelete = (id) => {
+    dispatch(deletePhoto(id));
+
+    resetComponentMessage();
   };
 
   if (loading) {
@@ -135,14 +146,14 @@ export function Profile() {
                       <BsFillEyeFill />
                     </Link>
                     <BsPencilFill />
-                    <BsXLg />
+                    <BsXLg onClick={() => handleDelete(photo._id)} />
                   </div>
                 ) : (
                   <Link className="btn" to={`/photos/${photo._id}`}>
                     Ver
                   </Link>
                 )}
-                {photos.length === 0 && <p>Você não há fotos publicadas</p>}
+                {photo.length === 0 && <p>Você não há fotos publicadas</p>}
               </div>
             ))}
         </div>
