@@ -6,8 +6,9 @@ import Message from "../../components/Message";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getPhoto } from "../../slices/photoSlice";
+import { getPhoto, like } from "../../slices/photoSlice";
 import { PhotoItem } from "../../components/photoItem";
+import { LikeContainer } from "../../components/LikeContainer";
 
 export function Photo() {
   const { id } = useParams();
@@ -23,6 +24,10 @@ export function Photo() {
     dispatch(getPhoto(id));
   }, [dispatch, id]);
 
+  const handleLike = () => {
+    dispatch(like(photo._id));
+  };
+
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -30,6 +35,7 @@ export function Photo() {
   return (
     <div id="photo">
       <PhotoItem photo={photo} />
+      <LikeContainer photo={photo} user={user} handleLike={handleLike} />
     </div>
   );
 }
