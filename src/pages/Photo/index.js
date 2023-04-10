@@ -6,7 +6,7 @@ import Message from "../../components/Message";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getPhoto, like } from "../../slices/photoSlice";
+import { getPhoto, like, comment, restMessage } from "../../slices/photoSlice";
 import { PhotoItem } from "../../components/photoItem";
 import { LikeContainer } from "../../components/LikeContainer";
 
@@ -20,12 +20,29 @@ export function Photo() {
     (state) => state.photo
   );
 
+  const [commentText, setCommentText] = useState("");
+
   useEffect(() => {
     dispatch(getPhoto(id));
   }, [dispatch, id]);
 
   const handleLike = () => {
     dispatch(like(photo._id));
+  };
+
+  const handleComment = (e) => {
+    e.preventDefault();
+
+    const commentData = {
+      comment: commentText,
+      id: photo._id,
+    };
+
+    dispatch(comment(commentData));
+
+    setCommentText("");
+
+    restMessage();
   };
 
   if (loading) {
@@ -36,6 +53,33 @@ export function Photo() {
     <div id="photo">
       <PhotoItem photo={photo} />
       <LikeContainer photo={photo} user={user} handleLike={handleLike} />
+      <div className="comments">
+        {photo.comments && (
+          <>
+            <h3>Comentarios: ({photo.comments.length})</h3>
+            <form onSubmit={handleComment}>
+              <input
+                type="text"
+                placeholder="Insira o seu comentario..."
+                onChange={(e) => setCommentText(e.target.value)}
+                value={commentText || ""}
+              />
+              <button type="submit">Enviar</button>
+            </form>
+            {photo.comments.length === 0 && <p>Não há comentários...</p>}
+            {photo.comments.map((comment) => (
+              <div className="comment" key={comment.comment}>
+                <div className="author">
+                  <Link to={`/users/${comment.userId}`}>
+                    <p>{comment.userName}</p>
+                  </Link>
+                </div>
+                <p>{comment.comment}</p>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 }
