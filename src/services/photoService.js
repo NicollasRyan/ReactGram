@@ -78,6 +78,7 @@ const photoService = {
   getUserPhotos,
   deletePhoto,
   updatePhoto,
+  getPhoto,
 };
 
 export default photoService;
